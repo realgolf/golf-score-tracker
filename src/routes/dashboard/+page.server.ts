@@ -5,6 +5,8 @@ export const load: PageServerLoad = async (event) => {
 	const email = event.cookies.get('email');
 
 	const user = await User_Model.findOne({ 'user.email': email });
+    
+    console.log(user);
 
 	const name = user?.user?.name as string;
 	const handicap = user?.user?.handicap as number;
@@ -44,5 +46,4 @@ export const load: PageServerLoad = async (event) => {
 		greensInRegulationPercentage,
 		handicap_history
 	};
-	console.log(user);
 };
