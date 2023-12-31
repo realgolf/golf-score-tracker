@@ -8,7 +8,8 @@ export async function register_user(
 	verified_password: string,
 	name: string,
 	handicap: number,
-	handicap_updated: Date
+	handicap_updated: Date,
+	registration_date: Date
 ): Promise<{ error: string }> {
 	const email_error = await verify_email(email);
 
@@ -37,7 +38,8 @@ export async function register_user(
 			password: hashed_password,
 			name,
 			handicap,
-			handicap_updated
+			handicap_updated,
+			registration_date
 		}
 	});
 

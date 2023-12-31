@@ -11,6 +11,11 @@ export async function login_user(email: string, password: string) {
 		return { error: user.error };
 	}
 
+	await User_Model.updateOne(
+		{ 'user.email': email },
+		{ $set: { 'user.last_login_date': new Date() } }
+	);
+
 	const token = jwt.sign({ id: user.id }, SECRET_JWT_KEY);
 
 	return { token, user };
