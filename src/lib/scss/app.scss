@@ -2,9 +2,30 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	scroll-behavior: smooth;
 }
 
 :root {
+	--small-font: 1rem;
+	--medium-font: 1.125rem;
+	--tiny-font: 0.8rem;
+}
+
+body[data-theme='light'] {
+	/* LIGHT COLORS */
+	--accent-color: rgb(211, 59, 3);
+	--highlight-color: #d4a300;
+	--error-color: rgb(230, 20, 20);
+	--background-color: #fff;
+	--nav-color: #f0f0f0;
+	--font-color: #333;
+	--label-color: #777;
+	--border-color: #ccc;
+	--h2-color: var(--accent-color);
+}
+
+body[data-theme='dark'] {
+	/* DARK COLORS  */
 	--accent-color: rgb(211, 59, 3);
 	--highlight-color: yellow;
 	--error-color: rgb(230, 20, 20);
@@ -12,6 +33,36 @@
 	--nav-color: #202028;
 	--font-color: #fff;
 	--label-color: #aaa;
+	--border-color: #333;
+	--h2-color: skyblue;
+}
+
+body[data-theme='system'] {
+	@media (prefers-color-scheme: dark) {
+		/* DARK COLORS  */
+		--accent-color: rgb(211, 59, 3);
+		--highlight-color: yellow;
+		--error-color: rgb(230, 20, 20);
+		--background-color: #131317;
+		--nav-color: #202028;
+		--font-color: #fff;
+		--label-color: #aaa;
+		--border-color: #333;
+		--h2-color: skyblue;
+	}
+
+	@media (prefers-color-scheme: light) {
+		/* LIGHT COLORS */
+		--accent-color: rgb(211, 59, 3);
+		--highlight-color: #d4a300;
+		--error-color: rgb(230, 20, 20);
+		--background-color: #fff;
+		--nav-color: #f0f0f0;
+		--font-color: #333;
+		--label-color: #777;
+		--border-color: #ccc;
+		--h2-color: var(--accent-color);
+	}
 }
 
 body {
@@ -20,14 +71,22 @@ body {
 	line-height: 1.5;
 	background-color: var(--background-color);
 	color: var(--font-color);
-	font-size: 1.2rem;
+	font-size: var(--medium-font);
+	transition: background-color 0.2s ease-in-out;
 }
 
 h1 {
 	padding-block: 2rem;
 	line-height: 1.2;
-	font-weight: 400;
+	font-weight: 600;
 	font-size: 2rem;
+}
+
+h2 {
+	font-weight: 600;
+	margin-block: 0.5rem;
+	line-height: 1.2;
+	color: var(--h2-color);
 }
 
 a {
@@ -43,7 +102,7 @@ a:focus {
 
 button,
 input {
-	color: inherit;
+	color: var(--font-color);
 	border: none;
 	font-family: inherit;
 	font-size: inherit;
@@ -95,4 +154,8 @@ label {
 
 p {
 	margin-bottom: 0.5rem;
+}
+
+.no-bullets {
+	list-style: none;
 }
