@@ -19,6 +19,26 @@ const User_Schema = new mongoose.Schema({
 			handicap: { type: Number },
 			date: { type: Date }
 		}
+	],
+	achievements: [
+		{
+			name: { type: String, required: true },
+			dateEarned: { type: Date, default: new Date() }
+		}
+	],
+	performanceOverview: {
+		averageScore: { type: Number, default: 0 },
+		averagePutts: { type: Number, default: 0 },
+		fairwaysHitPercentage: { type: Number, default: 0 },
+		greensInRegulationPercentage: { type: Number, default: 0 }
+	},
+	challenges: [
+		{
+			name: { type: String, required: true },
+			description: { type: String },
+			startDate: { type: Date, default: new Date() },
+			endDate: { type: Date }
+		}
 	]
 });
 
