@@ -1,7 +1,8 @@
 import type { Cookies } from '@sveltejs/kit';
+import bcrypt from 'bcrypt';
 import { authenticate } from './authenticate';
 import { User_Model } from './models';
-import { verify_email, verify_name } from './register';
+import { verify_email, verify_name, verify_password } from './register';
 
 export async function change_name(
 	cookies: Cookies,
@@ -10,7 +11,7 @@ export async function change_name(
 	const auth = authenticate(cookies);
 
 	if (!auth) {
-		return { error: 'You are not authorized.' };
+		return { error: 'You are not authenticated' };
 	}
 
 	const { id } = auth;
@@ -24,7 +25,7 @@ export async function change_name(
 	const user = await User_Model.findOne({ _id: id });
 
 	if (!user) {
-		return { error: 'User could not be found' };
+		return { error: 'User could not found' };
 	}
 
 	if (user.user.name === name) {
@@ -37,7 +38,7 @@ export async function change_name(
 		await user.save();
 		return { name };
 	} catch (err) {
-		return { error: err?.toString() as string };
+		return { error: err as string };
 	}
 }
 
@@ -48,7 +49,7 @@ export async function change_email(
 	const auth = authenticate(cookies);
 
 	if (!auth) {
-		return { error: 'You are not authorized.' };
+		return { error: 'You are not authenticated' };
 	}
 
 	const { id } = auth;
@@ -62,7 +63,7 @@ export async function change_email(
 	const user = await User_Model.findOne({ _id: id });
 
 	if (!user) {
-		return { error: 'User could not find found.' };
+		return { error: 'User could not found' };
 	}
 
 	user.user.email = email;
@@ -71,6 +72,182 @@ export async function change_email(
 		await user.save();
 		return { email };
 	} catch (err) {
-		return { error: err?.toString() as string };
+		return { error: err as string };
+	}
+}
+
+export async function change_password(
+	cookies: Cookies,
+	current_password: string,
+	new_password: string,
+	verified_password: string
+): Promise<{ error: string } | { new_password: string }> {
+	const auth = authenticate(cookies);
+
+	if (!auth) {
+		return { error: 'You are not authenticated' };
+	}
+
+	const { id } = auth;
+
+	const user = await User_Model.findOne({ _id: id });
+
+	const valid_current_password = (await bcrypt.compare(
+		current_password,
+		user.user.password
+	)) as unknown as boolean;
+
+	if (!valid_current_password) {
+		return { error: 'Invalid current password' };
+	} else if (new_password == current_password) {
+		return { error: 'New password cannot be the same as the old password' };
+	} else if (new_password == verified_password) {
+		const password_error = verify_password(new_password, verified_password);
+
+		if (password_error) {
+			return { error: password_error };
+		}
+
+		if (!user) {
+			return { error: 'User could not be found' };
+		}
+
+		const saltRounds = 10;
+		const hashed_password = await bcrypt.hash(new_password, saltRounds);
+
+		user.user.password = hashed_password;
+	} else {
+		return { error: 'Passwords do not match' };
+	}
+
+	try {
+		await user.save();
+		return { new_password };
+	} catch (err) {
+		return { error: err as string };
+	}
+}
+
+export async function change_measurement(cookies: Cookies, measurement_unit: string) {
+	const auth = authenticate(cookies);
+
+	if (!auth) {
+		return { error: 'You are not authenticated' };
+	}
+
+	const { id } = auth;
+
+	const user = await User_Model.findOne({ _id: id });
+
+	if (!user) {
+		return { error: 'User could not be found' };
+	}
+
+	user.user.measurement_units = measurement_unit;
+
+	try {
+		await user.save();
+		return { measurement_unit };
+	} catch (err) {
+		return { error: err as string };
+	}
+}
+
+export async function change_theme(cookies: Cookies, theme: string) {
+	const auth = authenticate(cookies);
+
+	if (!auth) {
+		return { error: 'You are not authenticated' };
+	}
+
+	const { id } = auth;
+
+	const user = await User_Model.findOne({ _id: id });
+
+	if (!user) {
+		return { error: 'User could not be found' };
+	}
+
+	user.user.theme = theme;
+
+	try {
+		await user.save();
+		return { theme };
+	} catch (err) {
+		return { error: err as string };
+	}
+}
+
+export async function delete_account(cookies: Cookies, password: string) {
+	const auth = authenticate(cookies);
+	const verified_password = password;
+
+	if (!auth) {
+		return { error: 'You are not authenticated' };
+	}
+
+	const { id } = auth;
+
+	const user = await User_Model.findOne({ _id: id });
+
+	if (!user) {
+		return { error: 'User could not be found' };
+	}
+
+	const password_error = verify_password(password, verified_password);
+
+	if (password_error) {
+		console.log(password_error);
+		return { error: password_error };
+	}
+
+	const password_is_correct = await bcrypt.compare(password, user.user?.password as string);
+
+	if (password_is_correct) {
+		try {
+			await User_Model.deleteOne({ _id: id });
+			return { message: 'The user got deleted', account_deleted: true };
+		} catch (err) {
+			return { error: err as string, account_deleted: false };
+		}
+	} else {
+		return { error: 'The passwords did not match', account_deleted: false };
+	}
+}
+
+export async function change_handicap(cookies: Cookies, handicap: number) {
+	const auth = authenticate(cookies);
+
+	if (!auth) {
+		return { error: 'You are not authenticated' };
+	}
+
+	const { id } = auth;
+
+	const user = await User_Model.findOne({ _id: id });
+
+	if (!user) {
+		return { error: 'User could not be found' };
+	}
+
+	if (handicap < 0) {
+		return { error: 'Handicap must be greater than zero' };
+	}
+
+	const old_handicap_object = {
+		handicap: user.user?.handicap,
+		date: user.user?.handicap_updated
+	};
+
+	user.handicap_history.push(old_handicap_object);
+
+	user.user.handicap = handicap;
+	user.user.handicap_updated = new Date();
+
+	try {
+		await user.save();
+		return { handicap };
+	} catch (err) {
+		return { error: err as string };
 	}
 }

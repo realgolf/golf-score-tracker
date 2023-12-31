@@ -1,14 +1,10 @@
+import { SECRET_JWT_KEY } from '$env/static/private';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
-import { SECRET_JWT_KEY } from '$env/static/private';
 import { User_Model } from './models';
 import { email_regexp } from './utils';
 
-export async function login_user(
-	email: string,
-	password: string
-): Promise<{ error: string } | { token: string; user: user }> {
+export async function login_user(email: string, password: string) {
 	const user = await get_user(email, password);
 
 	if ('error' in user) {
@@ -29,7 +25,7 @@ async function get_user(email: string, password: string): Promise<{ error: strin
 		return { error: 'Please enter a valid email.' };
 	}
 
-	const user = await User_Model.findOne({ email });
+	const user = await User_Model.findOne({ 'user.email': email });
 
 	if (!user) {
 		return { error: 'Email could not be found.' };
@@ -46,7 +42,6 @@ async function get_user(email: string, password: string): Promise<{ error: strin
 	}
 
 	const id = user._id.toString();
-
 	const name = user.user.name;
 
 	return { id, email, name };

@@ -32,9 +32,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fortawesome/free-regular-svg-icons": "^6.5.1",
+		"@fortawesome/free-solid-svg-icons": "^6.5.1",
 		"bcrypt": "^5.1.0",
 		"jsonwebtoken": "^9.0.0",
 		"mongoose": "^7.0.3",
-		"sass": "^1.69.6"
+		"sass": "^1.69.6",
+		"svelte-fa": "^3.0.4"
 	}
 }

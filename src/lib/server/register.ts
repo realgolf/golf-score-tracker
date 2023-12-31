@@ -1,12 +1,14 @@
 import bcrypt from 'bcrypt';
-
 import { User_Model } from './models';
 import { email_regexp } from './utils';
 
 export async function register_user(
 	email: string,
 	password: string,
-	name: string
+	verified_password: string,
+	name: string,
+	handicap: number,
+	handicap_updated: Date
 ): Promise<{ error: string }> {
 	const email_error = await verify_email(email);
 
@@ -14,7 +16,7 @@ export async function register_user(
 		return { error: email_error };
 	}
 
-	const password_error = verify_password(password);
+	const password_error = verify_password(password, verified_password);
 
 	if (password_error) {
 		return { error: password_error };
@@ -26,20 +28,24 @@ export async function register_user(
 		return { error: name_error };
 	}
 
-	const salt_rounds = 10;
-	const hashed_password = await bcrypt.hash(password, salt_rounds);
+	const saltRounds = 10;
+	const hashed_password = await bcrypt.hash(password, saltRounds);
 
 	const user = new User_Model({
-		email,
-		password: hashed_password,
-		name
+		user: {
+			email,
+			password: hashed_password,
+			name,
+			handicap,
+			handicap_updated
+		}
 	});
 
 	try {
 		await user.save();
 		return { error: '' };
 	} catch (err) {
-		return { error: err?.toString() as string };
+		return { error: err as string };
 	}
 }
 
@@ -47,12 +53,11 @@ export async function verify_email(email: string): Promise<string> {
 	if (!email) {
 		return 'Email is required.';
 	}
-
 	if (!email.match(email_regexp)) {
 		return 'Please enter a valid email.';
 	}
 
-	const previous_user = await User_Model.findOne({ email });
+	const previous_user = await User_Model.findOne({ 'user.email': email });
 
 	if (previous_user) {
 		return 'There is already an account with this email.';
@@ -61,9 +66,13 @@ export async function verify_email(email: string): Promise<string> {
 	return '';
 }
 
-function verify_password(password: string): string {
+export function verify_password(password: string, verified_password: string): string {
 	if (!password) {
-		return 'Password is required.';
+		return 'Pasword is required.';
+	}
+
+	if (password !== verified_password) {
+		return 'The passwords must be identical.';
 	}
 
 	if (password.length < 8) {
