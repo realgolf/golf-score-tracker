@@ -4,17 +4,12 @@
     	faBars,
     	faBook,
     	faBookBookmark,
-    	faChartLine,
-    	faGamepad,
     	faGavel,
     	faGear,
     	faHouse,
-    	faInfoCircle,
     	faKey,
     	faLock,
-    	faSave,
-    	faTh,
-    	faWrench,
+    	faTh
     } from "@fortawesome/free-solid-svg-icons";
     import { onDestroy, onMount } from "svelte";
     import Fa from "svelte-fa";
@@ -81,18 +76,6 @@
           <a href="/dashboard/settings"
             ><span><Fa icon={faGear} /></span>Settings</a
           >
-        </div>
-        <div class="games row border-bottom">
-          <h3>Dashboard</h3>
-          <a href="/dashboard/modi"><span><Fa icon={faGamepad} /></span>Modi</a>
-          <a href="/dashboard/games"><span><Fa icon={faSave} /></span>Games</a>
-          <a href="/dashboard/info"><span><Fa icon={faInfoCircle} /></span>Info</a
-          >
-          <a href="/dashboard/levels"
-            ><span><Fa icon={faChartLine} /></span>Levels</a
-          >
-          <a href="/dashboard/rules"><span><Fa icon={faBook} /></span>Rules</a>
-          <a href="/dashboard/tools"><span><Fa icon={faWrench} /></span>Tools</a>
         </div>
       {/if}
       <div class="external-links row border-bottom">
