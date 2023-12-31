@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
-	import type { ActionData, PageData } from "./$types";
+	import { enhance } from '$app/forms';
+	import type { ActionData, PageData } from './$types';
 
 	export let form: ActionData;
 	export let data: PageData;
@@ -12,40 +12,18 @@
 
 <h1>Account</h1>
 
-<form
-	action="?/name"
-	method="POST"
-	autocomplete="off"
-	use:enhance
-	class="update-form"
->
+<form action="?/name" method="POST" autocomplete="off" use:enhance class="update-form">
 	<div>
 		<label for="name_input">Name</label>
-		<input
-			type="text"
-			id="name_input"
-			name="name"
-			value={data.name}
-		/>
+		<input type="text" id="name_input" name="name" value={data.name} />
 	</div>
 	<button aria-label="update name">Update</button>
 </form>
 
-<form
-	action="?/email"
-	method="POST"
-	autocomplete="off"
-	use:enhance
-	class="update-form"
->
+<form action="?/email" method="POST" autocomplete="off" use:enhance class="update-form">
 	<div>
 		<label for="email_input">Email</label>
-		<input
-			type="email"
-			id="email_input"
-			name="email"
-			value={data.email}
-		/>
+		<input type="email" id="email_input" name="email" value={data.email} />
 	</div>
 	<button aria-label="update email">Update</button>
 </form>
