@@ -10,7 +10,7 @@
 
 <main>
 	<p>Welcome to your Real Golf Score Tracker {data.name}</p>
-	<p>Your current Handicap is: {data.handicap}</p>
+	<p>Your current Handicap is: <b>{data.handicap}</b></p>
 
 	{#if data.recentRounds}
 		<section class="recent-rounds">
