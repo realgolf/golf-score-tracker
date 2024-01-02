@@ -3,11 +3,12 @@ import mongoose from 'mongoose';
 import HoleDataSchema from './HoleDataSchema';
 
 const RoundSchema = new mongoose.Schema({
+	id: {type: String},
 	course: {
 		name: { type: String, required: true },
 		location: { type: String },
 		parInfo: {type: Number},
-		courseRating: { type: Number },
+		courseRating: { type: String },
 		slope: { type: Number }
 	},
 	roundInfo: {
