@@ -6,7 +6,7 @@ const RoundSchema = new mongoose.Schema({
 	course: {
 		name: { type: String, required: true },
 		location: { type: String },
-		parInfo: [{ holeNumber: Number, par: Number }],
+		parInfo: {type: Number},
 		courseRating: { type: Number },
 		slope: { type: Number }
 	},
