@@ -87,7 +87,7 @@
 		<div class="copyright row border-bottom">
 			<h3>Legal</h3>
 			<p><a href="/imprint"><Fa icon={faGavel} /> Imprint</a></p>
-			<p>© 2023 Julian Hammer</p>
+			<p>© 2023 Real Golf Games</p>
 			<p>All rights reserved</p>
 			<p>
 				<a class="underline" target="_blank" href="https://github.com/MoinJulian/Golf">GitHub</a>
@@ -119,7 +119,9 @@
 	}
 
 	button :global(svg) {
-		transition: opacity 250ms linear, rotate 250ms linear;
+		transition:
+			opacity 250ms linear,
+			rotate 250ms linear;
 		color: var(--font-color);
 	}
 
