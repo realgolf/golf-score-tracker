@@ -17,7 +17,7 @@
 		<input type="text" name="course_rating" id="course_rating" />
 
 		<label for="playing_partner">Playing Partner (include yourself)</label>
-		<input type="text" name="playing_partner" id="playing_partner">
-        <button>Start</button>
+		<input type="text" name="playing_partner" id="playing_partner" />
+		<button>Start</button>
 	</form>
 </div>
