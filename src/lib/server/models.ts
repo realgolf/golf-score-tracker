@@ -57,6 +57,7 @@ const User_Schema = new mongoose.Schema({
 			course: {
 				name: { type: String, required: true },
 				location: { type: String },
+				coursePar: {type: Number},
 				parInfo: [{ holeNumber: Number, par: Number }],
 				courseRating: { type: Number },
 				slope: { type: Number }
@@ -80,8 +81,8 @@ const User_Schema = new mongoose.Schema({
 			overallStatistics: {
 				totalStrokes: { type: Number },
 				totalPutts: { type: Number },
-				fairwaysHitPercentage: { type: Number },
-				greensInRegulationPercentage: { type: Number }
+				fairwaysHitPercentage: { type: String },
+				greensInRegulationPercentage: { type: String }
 			}
 		}
 	],

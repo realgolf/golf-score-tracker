@@ -10,8 +10,8 @@
 		<label for="course_location">Course Location</label>
 		<input type="text" name="course_location" id="course_name" />
 
-		<label for="par_info">Par Info:</label>
-		<input type="text" name="par_info" id="par_info" />
+		<label for="course_par">Total Course Par Info:</label>
+		<input type="text" name="course_par" id="course_par" />
 
 		<label for="course_rating">Course Rating</label>
 		<input type="text" name="course_rating" id="course_rating" />

@@ -8,11 +8,14 @@ export const actions: Actions = {
 		const email = event.cookies.get('email');
 
 		const data = await event.request.formData();
-		const course_name = data.get('course_name');
-		const course_location = data.get('course_location');
-		const par_info = data.get('par_info');
-		const course_rating = data.get('course_rating');
+		console.log(data);
+		const course_name = data.get('course_name') as unknown as string;
+		const course_location = data.get('course_location') as unknown as string;
+		const course_par = data.get('course_par') as unknown as number;
+		const course_rating = data.get('course_rating') as unknown as string;
 		const playing_partner = data.get('playing_partner') as string;
+		const validCourseRating = parseFloat(course_rating.replace(',', '.'));
+		console.log(course_name, course_location, validCourseRating, course_par, playing_partner);
 		let partners: string[] = [];
 
 		try {
@@ -38,8 +41,8 @@ export const actions: Actions = {
 					course: {
 						name: course_name,
 						location: course_location,
-						parInfo: par_info,
-						courseRating: course_rating
+						coursePar: course_par,
+						courseRating: validCourseRating
 					},
 					roundInfo: {
 						date: today,
