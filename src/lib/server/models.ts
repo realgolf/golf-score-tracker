@@ -54,10 +54,11 @@ const User_Schema = new mongoose.Schema({
 	},
 	golf_round: [
 		{
+			id: { type: String },
 			course: {
 				name: { type: String, required: true },
 				location: { type: String },
-				coursePar: {type: Number},
+				coursePar: { type: Number },
 				parInfo: [{ holeNumber: Number, par: Number }],
 				courseRating: { type: Number },
 				slope: { type: Number }
