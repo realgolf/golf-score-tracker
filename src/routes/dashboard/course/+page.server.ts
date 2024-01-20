@@ -1,5 +1,5 @@
 import { User_Model } from '$lib/server/models';
-import type { Actions } from '@sveltejs/kit';
+import { redirect, type Actions } from '@sveltejs/kit';
 import { v4 as uuidv4 } from 'uuid';
 import { formattedTime, today } from './time';
 
@@ -53,7 +53,7 @@ export const actions: Actions = {
 			}
 
 			await user.save();
-			console.log(user);
+			throw redirect(302, "/dashboard/course/score");
 		} catch (error) {
 			console.error(error);
 			return {
