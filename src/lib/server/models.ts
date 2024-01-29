@@ -5,12 +5,21 @@ const User_Schema = new mongoose.Schema({
 		email: { type: String, require: true, unique: true },
 		password: { type: String, require: true },
 		name: { type: String, require: true },
+		username: { type: String, require: true, unique: true },
 		registration_date: { type: Date, require: true },
 		last_login_date: { type: Date, require: true },
 		measurement_units: { type: String, required: true, default: 'meters' },
 		theme: { type: String, required: true, default: 'system' },
 		handicap: { type: Number, required: true, default: 54 },
-		handicap_updated: { type: Date, required: true, default: new Date() }
+		handicap_updated: { type: Date, required: true, default: new Date() },
+		bio: { type: String },
+		badges: [
+			{
+				title: { type: String },
+				description: { type: String },
+				color: { type: String }
+			}
+		]
 	},
 	games: [
 		{
@@ -45,9 +54,11 @@ const User_Schema = new mongoose.Schema({
 	},
 	golf_round: [
 		{
+			id: { type: String },
 			course: {
 				name: { type: String, required: true },
 				location: { type: String },
+				coursePar: { type: Number },
 				parInfo: [{ holeNumber: Number, par: Number }],
 				courseRating: { type: Number },
 				slope: { type: Number }
@@ -71,8 +82,8 @@ const User_Schema = new mongoose.Schema({
 			overallStatistics: {
 				totalStrokes: { type: Number },
 				totalPutts: { type: Number },
-				fairwaysHitPercentage: { type: Number },
-				greensInRegulationPercentage: { type: Number }
+				fairwaysHitPercentage: { type: String },
+				greensInRegulationPercentage: { type: String }
 			}
 		}
 	],
